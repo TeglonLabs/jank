@@ -186,7 +186,7 @@ OPTIONS
     opts.runtime_optimization_level = scratch.runtime_optimization_level.unwrap_or(0);
     opts.codegen_optimization_level = scratch.codegen_optimization_level.unwrap_or(0);
     opts.direct_call = scratch.direct_call.unwrap_or(false);
-    opts.loopify = scratch.loopify.unwrap_or(false);  /* default OFF; opt-in via --loopify */
+    opts.loopify = scratch.loopify.unwrap_or(false);  /* default OFF; opt-in via -Oloopify */
 
     /* NOLINTNEXTLINE(bugprone-switch-missing-default-case) */
     switch(opts.codegen_optimization_level)
