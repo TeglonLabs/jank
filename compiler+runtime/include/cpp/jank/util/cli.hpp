@@ -95,6 +95,8 @@ namespace jank::util::cli
     /*** O1 ***/
     bool hoist_literals{};
     bool remove_nops{};
+    /* loopify: self-recursion -> iteration (port of crane loopify.ml). Default OFF. */
+    bool loopify{};
 
     /*** O2 ***/
 

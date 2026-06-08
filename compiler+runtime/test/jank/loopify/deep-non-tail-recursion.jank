@@ -1,0 +1,19 @@
+;; RED test for jank::ir::opt::loopify  (TeglonLabs/jank-crane convergence).
+;;
+;; `sum-to` is self-recursive but NON-TAIL: the recursive call is wrapped by `(+ n _)`,
+;; so it is NOT eligible for Clojure/jank `recur` TCO and consumes one native C++ stack
+;; frame per level. At n = 1,000,000 it overflows the native stack TODAY.
+;;
+;; Expected behavior once ir/opt/loopify.cpp implements the non-tail transform and the
+;; pass is enabled (`jank --loopify run deep-non-tail-recursion.jank`):
+;;   prints 500000500000  with no stack overflow.
+;;
+;; Until then this is the RED in red/green: enabling --loopify is a verified no-op
+;; (loopify declines on unproven shapes), so the overflow still occurs. That is by design.
+
+(defn sum-to [n]
+  (if (zero? n)
+    0
+    (+ n (sum-to (dec n)))))            ; non-tail: (+ n _) wraps the recursive call
+
+(println (sum-to 1000000))             ; => 500000500000 when loopify is implemented
