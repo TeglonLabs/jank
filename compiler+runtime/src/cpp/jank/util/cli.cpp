@@ -168,6 +168,7 @@ OPTIONS
 
     /* Other optimization flags. */
     jtl::option<bool> direct_call;
+    jtl::option<bool> loopify;
   };
 
   static native_unordered_map<jtl::immutable_string, jtl::option<bool>(options_scratchpad::*)> const
@@ -176,6 +177,7 @@ OPTIONS
       {      "remove-nops",      &options_scratchpad::remove_nops },
       { "hoist-var-derefs", &options_scratchpad::hoist_var_derefs },
       {      "direct-call",      &options_scratchpad::direct_call },
+      {          "loopify",          &options_scratchpad::loopify },
   };
 
   /* TODO: Construct global options here. */
@@ -184,6 +186,7 @@ OPTIONS
     opts.runtime_optimization_level = scratch.runtime_optimization_level.unwrap_or(0);
     opts.codegen_optimization_level = scratch.codegen_optimization_level.unwrap_or(0);
     opts.direct_call = scratch.direct_call.unwrap_or(false);
+    opts.loopify = scratch.loopify.unwrap_or(false);  /* default OFF; opt-in via --loopify */
 
     /* NOLINTNEXTLINE(bugprone-switch-missing-default-case) */
     switch(opts.codegen_optimization_level)
