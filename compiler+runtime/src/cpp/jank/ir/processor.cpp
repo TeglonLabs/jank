@@ -4,6 +4,7 @@
 #include <jank/ir/opt/hoist_literals.hpp>
 #include <jank/ir/opt/hoist_var_derefs.hpp>
 #include <jank/ir/opt/remove_nops.hpp>
+#include <jank/ir/opt/loopify.hpp>
 #include <jank/runtime/context.hpp>
 #include <jank/runtime/core/make_box.hpp>
 #include <jank/runtime/core/to_string.hpp>
@@ -917,6 +918,12 @@ namespace jank::ir
       if(util::cli::opts.remove_nops)
       {
         remove_nops(fn);
+      }
+
+      /* loopify: default-OFF self-recursion -> iteration. See ir/opt/loopify.hpp. */
+      if(util::cli::opts.loopify)
+      {
+        loopify(fn);
       }
     }
 
